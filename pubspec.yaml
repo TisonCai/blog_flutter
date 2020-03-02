@@ -21,6 +21,9 @@ dependencies:
   build_runner: ^1.0.0
   json_serializable: ^2.0.0
   dio: ^3.0.9
+  pull_to_refresh: ^1.5.8
+  webview_flutter: ^0.3.19+8
+  loading_animations: "^2.1.0"
   flutter:
     sdk: flutter
 
