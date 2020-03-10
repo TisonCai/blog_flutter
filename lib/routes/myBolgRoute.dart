@@ -21,7 +21,7 @@ class _MyBolgRouteState extends State<MyBolgRoute> {
       Stack(
         children: <Widget>[
                  WebView(
-        initialUrl: 'http://www.baidu.com',
+        initialUrl: 'http://localhost:8000/admin/',
         javascriptMode: JavascriptMode.unrestricted,
         onPageFinished:(url){
           setState(() {

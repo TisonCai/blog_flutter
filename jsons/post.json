@@ -1,0 +1,14 @@
+{
+    "id": 26,
+    "title": "不需要mark",
+    "category": "技术",
+    "tag": [
+        "测试"
+    ],
+    "owner": {
+        "id": 1,
+        "username": "xiaosenge",
+        "email": "xiaosenge@163.com"
+    },
+    "create_time": "2020-03-10 14:40:45"
+}

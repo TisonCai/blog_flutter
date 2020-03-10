@@ -1,6 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:my_blog/common/network.dart';
+import 'package:my_blog/models/customSidebar.dart';
+import 'package:my_blog/models/index.dart';
+import 'package:my_blog/models/post.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeRoute extends StatefulWidget {
@@ -76,7 +80,59 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
+  // network
+  void get_postlist({Map query=null}) async {
+    var response = await Git.get(postList,queryParameters: query);
+    List datas = response['result']['data'];
+    var models = datas.map((item){
+      return Post.fromJson(item);
+    });
+    print('Post');
+    print(models);
+    models.forEach((model){print(model.title);});
+  }
+  void get_postlist_by_category() {
+    get_postlist(query: {'category_id':'6'});
+  }
+  void get_postlist_by_tag() {
+    get_postlist(query: {'tag_id':'2'});
+  }
+  void get_postlist_by_author() {
+    get_postlist(query: {'user_id':'1'});
+  }
+  void get_postlist_by_search({String keyword=''}) {
+    get_postlist(query: {'keyword':'测试'});
+  }
+
+  void get_sidebarlist() async {
+    var response = await Git.get(sidebarList);
+    List datas = response['result']['data'];
+    datas.forEach((item){
+      CustomSidebar bar = CustomSidebar.fromjson(item);
+      print('Sidebars item');
+      print(bar.side_list.length);
+      print(bar.display_type);
+    });
+    print('Sidebars');
+    print(response);
+  }
+
+  void get_categorys() async {
+    var response = await Git.get(categoryList);
+    List datas = response['result']['data'];
+    var models = datas.map((item){
+      return Category.fromJson(item);
+    });
+    print('Category');
+    print(models);
+    models.forEach((model){print(model.name);});
+  }
+
   void _onRefresh() async{
+    // get_postlist();
+    // get_categorys();
+    get_sidebarlist();
+    // get_postlist();
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
