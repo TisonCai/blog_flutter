@@ -13,7 +13,8 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     ..category = json['category'] as String
     ..tag = json['tag'] as List
     ..owner = json['owner'] as Map<String, dynamic>
-    ..create_time = json['create_time'] as String;
+    ..create_time = json['create_time'] as String
+    ..desc = json['desc'] as String;
 }
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
@@ -22,5 +23,6 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'category': instance.category,
       'tag': instance.tag,
       'owner': instance.owner,
-      'create_time': instance.create_time
+      'create_time': instance.create_time,
+      'desc': instance.desc
     };

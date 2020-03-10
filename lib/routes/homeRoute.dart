@@ -15,6 +15,7 @@ class HomeRoute extends StatefulWidget {
 class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMixin {
 
   final List<String> tabs = <String>['分类1','分类2','分类4','分类3'];
+  List<Post> postlist = List();
   TabController _controller;
 
   Widget _getRichText(String normalText,String highText,GestureTapCallback onTap) {
@@ -34,9 +35,10 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
 
   Widget _getlistView (){
     return ListView.builder(
-        itemCount: 100,
+        itemCount: postlist.length,
         itemExtent: 90,
         itemBuilder: (BuildContext context, int index) {
+          final model = postlist[index];
           return Card(
             child: Container(
               margin: EdgeInsets.all(8),
@@ -44,7 +46,7 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '风科技的了房间爱上方方达冷风机阿里卷达冷风机阿里达冷风机阿里发梳发送',
+                  model.title,
                   textAlign: TextAlign.left,
                   softWrap: false,
                   overflow: TextOverflow.ellipsis,
@@ -54,7 +56,7 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
                     fontSize: 15,
                   ),
                   ),
-                Text('描述'),
+                Text(model.desc),
 
                 Row(
                   children: <Widget>[
@@ -89,7 +91,10 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
     });
     print('Post');
     print(models);
-    models.forEach((model){print(model.title);});
+    postlist.addAll(models);
+    setState(() {
+      postlist=postlist;
+    });
   }
   void get_postlist_by_category() {
     get_postlist(query: {'category_id':'6'});
@@ -129,9 +134,10 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
   }
 
   void _onRefresh() async{
-    // get_postlist();
+    postlist.clear();
+    get_postlist();
     // get_categorys();
-    get_sidebarlist();
+    // get_sidebarlist();
     // get_postlist();
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
