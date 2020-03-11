@@ -58,7 +58,7 @@ class _SidebarRouteState extends State<SidebarRoute> {
                     fontSize: 15,
                   ),
                   ),
-                Text(model.desc),
+                // Text(model.desc),
                 ]
             ),
             ),

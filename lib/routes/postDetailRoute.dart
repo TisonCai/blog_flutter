@@ -15,7 +15,7 @@ class PostDetailRoute extends StatefulWidget {
 }
 
 class _PostDetailRouteState extends State<PostDetailRoute> {
-  var _isLoading = false;
+  var _isLoading = true;
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -26,7 +26,7 @@ class _PostDetailRouteState extends State<PostDetailRoute> {
       Stack(
         children: <Widget>[
                  WebView(
-        initialUrl: 'http://localhost:8000/post/${this.widget.postId}',
+        initialUrl: 'http://127.0.0.1:8000/post/${this.widget.postId}',
         javascriptMode: JavascriptMode.unrestricted,
         onPageFinished:(url){
           setState(() {

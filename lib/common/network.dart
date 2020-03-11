@@ -7,7 +7,7 @@ final sidebarList = 'sidebar';
 
 class Git {
   static Dio dio = Dio(BaseOptions(
-    baseUrl:'http://localhost:8000/api/',
+    baseUrl:'http://127.0.0.1:8000/api/',
   ));
 
   static get(String api,{Map queryParameters=null}) async {

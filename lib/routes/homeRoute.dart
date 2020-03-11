@@ -175,9 +175,6 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: SidebarRoute(),
-      ),
       appBar: AppBar(
         title: Text('博客主页'),
         bottom: categorys.length > 0 ? TabBar(
