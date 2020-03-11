@@ -75,9 +75,12 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.home),title: Text('首页')),
           BottomNavigationBarItem(icon: Icon(Icons.school),title: Text('我的博客')),
   ];
+
+  static final Widget _homeRoute = HomeRoute();
+  static final Widget _bolgRoute = MyBolgRoute();
   final List<Widget> _routes = <Widget>[
-    HomeRoute(),
-    MyBolgRoute(),
+    _homeRoute,
+    _bolgRoute,
   ];
 
   @override
@@ -96,11 +99,11 @@ class _MyHomePageState extends State<MyHomePage> {
           currentIndex: _currentIndex,
         ),
       body: _routes[_currentIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _incrementCounter,
+      //   tooltip: 'Increment',
+      //   child: Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

@@ -8,7 +8,7 @@ class Post {
 
     num id;
     String title;
-    String category;
+    Map<String,dynamic> category;
     List tag;
     Map<String,dynamic> owner;
     String create_time;
