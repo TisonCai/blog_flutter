@@ -25,6 +25,12 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
   TabController _controller;
   var selectIndex = '11';
 
+  void pushFilterPostRoute(BuildContext context,String title,Map filter) {
+    Navigator.push(context, MaterialPageRoute(builder: (context){
+      return FilterPostRoute(title:title, filter: filter);
+    }));
+  }
+
   Widget _getRichText(String normalText,String highText,GestureTapCallback onTap) {
     return   Text.rich(TextSpan(
                 text: normalText,
@@ -72,18 +78,19 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
                 Row(
                   children: <Widget>[
                     _getRichText('分类：',model.category.name,(){
-                                      final title = '分类为: ${model.category.name}的文章';
-                                      final filter = {'category_id': '${model.category.id}'};
-                                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                                        return FilterPostRoute(title:title, filter: filter);
-                                      }));
-                                      print(model.category);
+                        final title = '分类为: <${model.category.name}>的文章';
+                        final filter = {'category_id': '${model.category.id}'};
+                        pushFilterPostRoute(context, title, filter);
                                     }),
                     _getRichText('  标签：',model.tags.first.name,(){
-                      print('click me');
+                        final title = '标签为: <${model.tags.first.name}>的文章';
+                        final filter = {'tag_id': '${model.tags.first.id}'};
+                        pushFilterPostRoute(context, title, filter);
                     }),
                     _getRichText('  作者：',model.owner.username,(){
-                      print('click me');
+                        final title = '作者为: <${model.owner.username}>的文章';
+                        final filter = {'user_id': '${model.owner.id}'};
+                        pushFilterPostRoute(context, title, filter);
                     }),
                   ],
                 ),

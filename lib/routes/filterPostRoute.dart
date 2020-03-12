@@ -52,7 +52,7 @@ class _FilterPostRouteState extends State<FilterPostRoute> with SingleTickerProv
                 _onTap(context,model);
               },
               child: Container(
-              margin: EdgeInsets.all(8),
+              margin: EdgeInsets.all(15),
               child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -126,25 +126,6 @@ class _FilterPostRouteState extends State<FilterPostRoute> with SingleTickerProv
   }
 
 
-
-  void _onRefresh() async{
-    // get_categorys();
-    // get_sidebarlist();
-    // get_postlist();
-    // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
-    _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async{
-    // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
-    // items.add((items.length+1).toString());
-    _refreshController.loadComplete();
-  }
-
   void _onTap(BuildContext context, CustomPost post) {
     print(post.title);
     Navigator.of(context).push(
@@ -155,23 +136,16 @@ class _FilterPostRouteState extends State<FilterPostRoute> with SingleTickerProv
 
   @override
   void initState() {
-    get_postlist();
+    get_postlist(query: widget.filter);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('博客文章'),
+        title: Text('${widget.title}'),
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            child: Text('标签为：的文章'),
-          ),
-          _getlistView(),
-        ],
-      )
+      body:  _getlistView()
     );
   }
 }
