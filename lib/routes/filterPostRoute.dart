@@ -11,19 +11,19 @@ import 'package:my_blog/routes/postDetailRoute.dart';
 import 'package:my_blog/routes/sidebarRoute.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'filterPostRoute.dart';
+class FilterPostRoute extends StatefulWidget {
+  FilterPostRoute({this.title, this.filter});
+  String title;
+  Map filter;
 
-class HomeRoute extends StatefulWidget {
   @override
-  _HomeRouteState createState() => _HomeRouteState();
+  _FilterPostRouteState createState() => _FilterPostRouteState();
 }
 
-class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMixin {
+class _FilterPostRouteState extends State<FilterPostRoute> with SingleTickerProviderStateMixin {
 
   List<Category> categorys = List<Category>();
   List<CustomPost> postlist = List();
-  TabController _controller;
-  var selectIndex = '11';
 
   Widget _getRichText(String normalText,String highText,GestureTapCallback onTap) {
     return   Text.rich(TextSpan(
@@ -32,13 +32,12 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
                   TextSpan(
                     text: highText,
                     style: TextStyle(
-                      color: Colors.blue,
+                      color: Colors.black,
                     ),
-                    recognizer: TapGestureRecognizer()
-                                ..onTap = onTap
+                    // recognizer: TapGestureRecognizer()
+                    //             ..onTap = onTap
                                 ),
-                                ],)
-                                );
+                                ],));
   }
 
   Widget _getlistView (){
@@ -72,11 +71,6 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
                 Row(
                   children: <Widget>[
                     _getRichText('分类：',model.category.name,(){
-                                      final title = '分类为: ${model.category.name}的文章';
-                                      final filter = {'category_id': '${model.category.id}'};
-                                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                                        return FilterPostRoute(title:title, filter: filter);
-                                      }));
                                       print(model.category);
                                     }),
                     _getRichText('  标签：',model.tags.first.name,(){
@@ -98,19 +92,19 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
 
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-
+  
   // network
   void get_postlist({Map query=null}) async {
     var models = await Api.getPosts(query:query);
-    print("get_postlist");
+    print("get_postlistr");
     print(query);
     // var response = await Git.get(postList, queryParameters: query);
     // List datas = response['result']['data'];
     // var models = datas.map((item){
     //   return CustomPost.fromjson(item);
     // });
-    // print('Post');
-    // print(models);
+    print('Filter Post');
+    print(models);
 
     postlist.clear();
     postlist.addAll(models);
@@ -131,26 +125,9 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
     get_postlist(query: {'keyword':keyword});
   }
 
-  void get_categorys() async {
-    var response = await Git.get(categoryList);
-    List datas = response['result']['data'];
-    var models = datas.map((item){
-      return Category.fromJson(item);
-    });
-    print('Category');
-    categorys.clear();
-    categorys.addAll(models);
 
-    _controller = TabController(length: categorys.length, vsync: this);
-    setState(() {
-      categorys = categorys;
-    });
-    models.forEach((model){print(model.name);});
-  }
 
   void _onRefresh() async{
-    get_categorys();
-    get_postlist_by_category(selectIndex);
     // get_categorys();
     // get_sidebarlist();
     // get_postlist();
@@ -178,60 +155,23 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
 
   @override
   void initState() {
-    get_categorys();
-    get_postlist_by_category(selectIndex);
+    get_postlist();
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('博客主页'),
-        bottom: categorys.length > 0 ? TabBar(
-          controller: _controller,
-          tabs: categorys.map((e) => Tab(text: e.name,)).toList(),
-          isScrollable: true,
-          onTap: (index){
-            var category = categorys.elementAt(index);
-            selectIndex = category.id.toString();
-            print(category.name);
-            get_postlist_by_category(selectIndex);
-          },
-        ) : null,
+        title: Text('博客文章'),
       ),
-      body: SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: true,
-        header: WaterDropHeader(),
-        footer: CustomFooter(
-          builder: (BuildContext context,LoadStatus mode){
-            Widget body ;
-            if(mode==LoadStatus.idle){
-              body =  Text("");
-            }
-            else if(mode==LoadStatus.loading){
-              body =  CupertinoActivityIndicator();
-            }
-            else if(mode == LoadStatus.failed){
-              body = Text("加载失败，请重试!");
-            }
-            else if(mode == LoadStatus.canLoading){
-                body = Text("释放加载更多");
-            }
-            else{
-              body = Text("没有更多数据了");
-            }
-            return Container(
-              height: 55.0,
-              child: Center(child:body),
-            );
-          },
-        ),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        child: _getlistView(),
-        )
+      body: Column(
+        children: <Widget>[
+          Container(
+            child: Text('标签为：的文章'),
+          ),
+          _getlistView(),
+        ],
+      )
     );
   }
 }
