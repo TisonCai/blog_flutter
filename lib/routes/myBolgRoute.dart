@@ -33,7 +33,9 @@ class _MyBolgRouteState extends State<MyBolgRoute> {
           print('$url 开始加载');
         },
       ),
-      _isLoading ? LoadingFlipping.circle() : Container(
+      _isLoading ? LoadingFlipping.circle(
+        borderColor: Colors.blue,
+      ) : Container(
         constraints: BoxConstraints(maxWidth: 0.01,maxHeight: 0.01),
         ),
         ],
